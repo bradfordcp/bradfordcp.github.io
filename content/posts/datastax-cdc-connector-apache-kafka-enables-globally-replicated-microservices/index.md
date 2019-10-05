@@ -1,5 +1,5 @@
 +++ 
-draft = true
+draft = false
 date = 2019-09-30T15:37:36-04:00
 title = "DataStax CDC Connector for Apache Kafka™ Enables Globally Replicated Microservices"
 slug = "" 
