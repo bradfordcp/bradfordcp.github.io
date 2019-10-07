@@ -1,0 +1,19 @@
+{{ define "og-title" }}
+  {{ .Title }} - {{ .Site.Title }}
+{{ end }}
+{{ define "title" }}
+  {{ .Title }} - {{ .Site.Title }}
+{{ end }}
+{{ define "content" }}
+  <section class="container list">
+    <h1 class="title">{{ .Title }}</h1>
+    <ul>
+      {{ range .Paginator.Pages }}
+      <li>
+        <a href="{{ .Params.external_url }}" target="_blank">{{ .Params.name }}</a> - {{ .Params.description }}
+      </li>
+      {{ end }}
+    </ul>
+    {{ partial "pagination.html" . }}
+  </section>
+{{ end }}

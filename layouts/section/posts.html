@@ -1,0 +1,23 @@
+{{ define "og-title" }}
+  {{ .Title }} - {{ .Site.Title }}
+{{ end }}
+{{ define "title" }}
+  {{ .Title }} - {{ .Site.Title }}
+{{ end }}
+{{ define "content" }}
+<section class="container list">
+  <h1 class="title">{{ .Title }}</h1>
+  <ul>
+    {{ range .Paginator.Pages }}
+    <li>
+      {{ if .Params.external_url }}
+      <span>{{ .Date.Format "January 2, 2006" }}</span><a href="{{ .Params.external_url }}" target="_blank">{{ .Title }}</a>
+      {{ else }}
+      <span>{{ .Date.Format "January 2, 2006" }}</span><a href="{{ .Permalink }}">{{ .Title }}</a>
+      {{ end }}
+    </li>
+    {{ end }}
+  </ul>
+  {{ partial "pagination.html" . }}
+</section>
+{{ end }}
