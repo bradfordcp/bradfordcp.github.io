@@ -32,11 +32,11 @@ jobs:
       - attach_workspace:
           at: /root/hugo
       - deploy:
-        name: Deploy to Google Cloud Storage staging bucket
-        command: |
-          .circleci/configure_gcloud.sh
-          cd $HUGO_BUILD_DIR
-          gsutil -m rsync -r -d -n . gs://staging.bradfordcp.io/
+          name: Deploy to Google Cloud Storage staging bucket
+          command: |
+            .circleci/configure_gcloud.sh
+            cd $HUGO_BUILD_DIR
+            gsutil -m rsync -r -d -n . gs://staging.bradfordcp.io/
   
   deploy_gcloud_production:
     docker:
