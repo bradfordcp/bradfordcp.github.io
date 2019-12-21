@@ -75,13 +75,14 @@ workflows:
   default:
     jobs:
       - build
-      - deploy_github:
-          requires:
-            - build
-      - approval:
-          type: approval
-          requires:
-            - deploy_github
+      # - deploy_github:
+      #     requires:
+      #       - build
+      # - approval:
+      #     type: approval
+      #     requires:
+      #       - deploy_github
       - deploy_gcloud:
           requires:
-            - approval
+            # - approval
+            - build
