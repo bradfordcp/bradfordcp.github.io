@@ -20,7 +20,8 @@ jobs:
       - persist_to_workspace:
           root: /root/hugo
           paths: public
-  deploy_github:
+
+  deploy_gcloud_staging:
     docker:
       - image: bradfordcp/fedora-gcloud-hugo:31
     working_directory: /root/hugo
@@ -34,18 +35,13 @@ jobs:
       - attach_workspace:
           at: /root/hugo
       - deploy:
-          name: Deploy to GitHub Pages
-          command: |
-            .circleci/configure_git.sh
-            cd $HUGO_BUILD_DIR
-            if [ "${CIRCLE_BRANCH}" = "master" ]; then
-              git status
-              git add .
-              git commit -m "Built site for $CIRCLE_SHA1"
-              git push origin master
-            fi
+        name: Deploy to Google Cloud
+        command: |
+          .circleci/configure_gcloud.sh
+          cd $HUGO_BUILD_DIR
+          gsutil -m rsync -r -d -n . gs://staging.bradfordcp.io/
   
-  deploy_gcloud:
+  deploy_gcloud_production:
     docker:
       - image: bradfordcp/fedora-gcloud-hugo:31
     working_directory: /root/hugo
@@ -75,14 +71,13 @@ workflows:
   default:
     jobs:
       - build
-      # - deploy_github:
-      #     requires:
-      #       - build
-      # - approval:
-      #     type: approval
-      #     requires:
-      #       - deploy_github
-      - deploy_gcloud:
+      - deploy_gcloud_staging:
           requires:
-            # - approval
             - build
+      - approval:
+          type: approval
+          requires:
+            - deploy_gcloud_staging
+      - deploy_gcloud_production:
+          requires:
+            - approval
