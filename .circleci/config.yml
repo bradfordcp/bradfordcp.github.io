@@ -32,5 +32,5 @@ jobs:
             cd $HUGO_BUILD_DIR
             git status
             git add .
-            git commit -m "Built site"
+            git commit -m "Built site for $CIRCLE_SHA1"
             git push origin master
