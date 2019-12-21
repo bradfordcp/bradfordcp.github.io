@@ -1,6 +1,3 @@
 [submodule "themes/coder-profile"]
 	path = themes/coder-profile
 	url = git@github.com:naro143/hugo-coder-portfolio.git
-[submodule "public"]
-	path = public
-	url = git@github.com:bradfordcp/bradfordcp.github.io.git
