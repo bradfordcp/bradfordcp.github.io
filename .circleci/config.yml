@@ -29,13 +29,10 @@ jobs:
       HUGO_BUILD_DIR: /root/hugo/public
     steps:
       - checkout
-      - run:
-          name: Configure submodules
-          command: git submodule sync && git submodule update --init
       - attach_workspace:
           at: /root/hugo
       - deploy:
-        name: Deploy to Google Cloud
+        name: Deploy to Google Cloud Storage staging bucket
         command: |
           .circleci/configure_gcloud.sh
           cd $HUGO_BUILD_DIR
@@ -49,13 +46,10 @@ jobs:
       HUGO_BUILD_DIR: /root/hugo/public
     steps:
       - checkout
-      - run:
-          name: Configure submodules
-          command: git submodule sync && git submodule update --init
       - attach_workspace:
           at: /root/hugo
       - deploy:
-          name: Deploy to Google Cloud
+          name: Deploy to Google Cloud Storage production bucket
           command: |
             .circleci/configure_gcloud.sh
             cd $HUGO_BUILD_DIR
