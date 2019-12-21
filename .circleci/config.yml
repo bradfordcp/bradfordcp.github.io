@@ -8,29 +8,42 @@ jobs:
       HUGO_BUILD_DIR: ~/hugo/public
     steps:
       - run: |
-        cat <<EOF > /etc/yum.repos.d/google-cloud-sdk.repo
-        [google-cloud-sdk]
-        name=Google Cloud SDK
-        baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el7-x86_64
-        enabled=1
-        gpgcheck=1
-        repo_gpgcheck=1
-        gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
-              https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-        EOF
+          cat <<EOF > /etc/yum.repos.d/google-cloud-sdk.repo
+          [google-cloud-sdk]
+          name=Google Cloud SDK
+          baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el7-x86_64
+          enabled=1
+          gpgcheck=1
+          repo_gpgcheck=1
+          gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
+                https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+          EOF
       - run: dnf update -y
       - run: dnf install -y git google-cloud-sdk hugo
+      - run: |
+          echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
+          gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
       - checkout
       - run: git submodule sync && git submodule update --init
       - run: HUGO_ENV=production hugo -v -d $HUGO_BUILD_DIR
       # - run: |
       #     htmlproofer $HUGO_BUILD_DIR --allow-hash-href --check-html \
       #     --empty-alt-ignore --disable-external
+      # - deploy:
+      #     name: Deploy to GitHub Pages
+      #     command: |
+      #       cd $HUGO_BUILD_DIR
+      #       git status
+      #       git add .
+      #       git commit -m "Built site for $CIRCLE_SHA1"
+      #       git push origin master
       - deploy:
-          name: Deploy to GitHub Pages
+          name: Deploy to Google Cloud
           command: |
             cd $HUGO_BUILD_DIR
-            git status
-            git add .
-            git commit -m "Built site"
-            git push origin master
+            if [ "${CIRCLE_BRANCH}" = "master" ]; then
+              gsutil -m rsync -r -d . gs://bradfordcp.io/
+            else
+              echo "Not master branch, dry run only"
+              gsutil -m rsync -r -d -n . gs://bradfordcp.io/
+            fi
