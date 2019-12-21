@@ -2,44 +2,66 @@ version: 2
 jobs:
   build:
     docker:
-      - image: fedora:31
-    working_directory: ~/hugo
+      - image: bradfordcp/fedora-gcloud-hugo:31
+    working_directory: /root/hugo
     environment:
-      HUGO_BUILD_DIR: ~/hugo/public
+      HUGO_BUILD_DIR: /root/hugo/public
+      HUGO_ENV: production
     steps:
-      - run: |
-          cat <<EOF > /etc/yum.repos.d/google-cloud-sdk.repo
-          [google-cloud-sdk]
-          name=Google Cloud SDK
-          baseurl=https://packages.cloud.google.com/yum/repos/cloud-sdk-el7-x86_64
-          enabled=1
-          gpgcheck=1
-          repo_gpgcheck=1
-          gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
-                https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-          EOF
-      - run: dnf update -y
-      - run: dnf install -y git google-cloud-sdk hugo
-      - run: |
-          echo $GCLOUD_SERVICE_KEY | gcloud auth activate-service-account --key-file=-
-          gcloud --quiet config set project ${GOOGLE_PROJECT_ID}
       - checkout
-      - run: git submodule sync && git submodule update --init
-      - run: HUGO_ENV=production hugo -v -d $HUGO_BUILD_DIR
-      # - run: |
-      #     htmlproofer $HUGO_BUILD_DIR --allow-hash-href --check-html \
-      #     --empty-alt-ignore --disable-external
-      # - deploy:
-      #     name: Deploy to GitHub Pages
-      #     command: |
-      #       cd $HUGO_BUILD_DIR
-      #       git status
-      #       git add .
-      #       git commit -m "Built site for $CIRCLE_SHA1"
-      #       git push origin master
+      - attach_workspace:
+          at: /root/hugo
+      - run:
+          name: Configure submodules
+          command: git submodule sync && git submodule update --init
+      - run:
+          name: Build the site with Hugo
+          command: hugo -v -d $HUGO_BUILD_DIR
+      - persist_to_workspace:
+          root: /root/hugo
+          paths: public
+  deploy_github:
+    docker:
+      - image: bradfordcp/fedora-gcloud-hugo:31
+    working_directory: /root/hugo
+    environment:
+      HUGO_BUILD_DIR: /root/hugo/public
+    steps:
+      - checkout
+      - run:
+          name: Configure submodules
+          command: git submodule sync && git submodule update --init
+      - attach_workspace:
+          at: /root/hugo
+      - deploy:
+          name: Deploy to GitHub Pages
+          command: |
+            .circleci/configure_git.sh
+            cd $HUGO_BUILD_DIR
+            if [ "${CIRCLE_BRANCH}" = "master" ]; then
+              git status
+              git add .
+              git commit -m "Built site for $CIRCLE_SHA1"
+              git push origin master
+            fi
+  
+  deploy_gcloud:
+    docker:
+      - image: bradfordcp/fedora-gcloud-hugo:31
+    working_directory: /root/hugo
+    environment:
+      HUGO_BUILD_DIR: /root/hugo/public
+    steps:
+      - checkout
+      - run:
+          name: Configure submodules
+          command: git submodule sync && git submodule update --init
+      - attach_workspace:
+          at: /root/hugo
       - deploy:
           name: Deploy to Google Cloud
           command: |
+            .circleci/configure_gcloud.sh
             cd $HUGO_BUILD_DIR
             if [ "${CIRCLE_BRANCH}" = "master" ]; then
               gsutil -m rsync -r -d . gs://bradfordcp.io/
@@ -47,3 +69,19 @@ jobs:
               echo "Not master branch, dry run only"
               gsutil -m rsync -r -d -n . gs://bradfordcp.io/
             fi
+
+workflows:
+  version: 2
+  default:
+    jobs:
+      - build
+      - deploy_github:
+          requires:
+            - build
+      - approval:
+          type: approval
+          requires:
+            - deploy_github
+      - deploy_gcloud:
+          requires:
+            - approval
