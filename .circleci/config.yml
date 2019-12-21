@@ -26,11 +26,21 @@ jobs:
       # - run: |
       #     htmlproofer $HUGO_BUILD_DIR --allow-hash-href --check-html \
       #     --empty-alt-ignore --disable-external
+      # - deploy:
+      #     name: Deploy to GitHub Pages
+      #     command: |
+      #       cd $HUGO_BUILD_DIR
+      #       git status
+      #       git add .
+      #       git commit -m "Built site for $CIRCLE_SHA1"
+      #       git push origin master
       - deploy:
-          name: Deploy to GitHub Pages
+          name: Deploy to Google Cloud
           command: |
             cd $HUGO_BUILD_DIR
-            git status
-            git add .
-            git commit -m "Built site for $CIRCLE_SHA1"
-            git push origin master
+            if [ "${CIRCLE_BRANCH}" = "master" ]; then
+              gsutil -m rsync -r -d . gs://bradfordcp.io/
+            else
+              echo "Not master branch, dry run only"
+              gsutil -m rsync -r -d -n . gs://bradfordcp.io/
+            fi
