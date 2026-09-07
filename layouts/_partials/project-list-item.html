@@ -1,0 +1,7 @@
+<li class="project">
+  <a class="title" href="{{ .RelPermalink }}">{{ .Title }}</a>
+  {{- if .Params.description }}
+    <p class="project-description">{{ .Params.description }}</p>
+  {{- end }}
+  {{ partial "project-meta.html" . }}
+</li>

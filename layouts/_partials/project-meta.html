@@ -1,0 +1,20 @@
+{{- $external := or .Params.external_url .Params.externalLink -}}
+<div class="project-meta">
+  {{- with .Params.role }}
+    <span class="project-role">{{ . }}</span>
+  {{- end }}
+  {{- with .Params.organization }}
+    {{- if $.Params.role }}<span class="separator">·</span>{{ end }}
+    <span class="project-org">{{ . }}</span>
+  {{- end }}
+  {{- with $external }}
+    {{- $parsed := urls.Parse . -}}
+    {{- if or $.Params.role $.Params.organization }}<span class="separator">·</span>{{ end }}
+    <a class="project-external" href="{{ . | safeURL }}" rel="noopener noreferrer">{{ $parsed.Host }}{{ strings.TrimSuffix "/" $parsed.Path }}</a>
+  {{- end }}
+</div>
+{{- with .Params.technologies }}
+  <div class="project-tech">
+    {{ delimit . " · " }}
+  </div>
+{{- end }}
