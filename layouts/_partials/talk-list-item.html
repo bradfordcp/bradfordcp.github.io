@@ -1,0 +1,12 @@
+{{- $link := or .Params.externalLink .Params.external_url .RelPermalink -}}
+{{- $external := or .Params.externalLink .Params.external_url -}}
+<li>
+  {{- if not .Date.IsZero }}
+  <span class="date">{{ .Date | time.Format (.Site.Params.dateFormat | default "January 2, 2006") }}</span>
+  {{- end }}
+  <a class="title" href="{{ $link | safeURL }}"{{ if $external }} rel="noopener noreferrer"{{ end }}>{{ .Title }}</a>
+  <span class="date">
+    {{- with .Params.event }} · {{ . }}{{ end -}}
+    {{- with .Params.format }} · {{ . | humanize }}{{ end -}}
+  </span>
+</li>
