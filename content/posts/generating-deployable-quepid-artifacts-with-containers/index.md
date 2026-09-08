@@ -7,7 +7,14 @@ tags = []
 categories = []
 thumbnail = "images/tn.png"
 description = ""
-external_url = "https://opensourceconnections.com/blog/2016/04/07/generating-deployable-quepid-artifacts-with-containers/"
+external = true
+externalLink = "https://opensourceconnections.com/blog/2016/04/07/generating-deployable-quepid-artifacts-with-containers/"
+external_source = "OpenSource Connections"
+
+[build]
+render = "never"
+list = "always"
+publishResources = false
 +++
 
 _This is part 1 of a 3 part series on our move to containers as a platform for Quepid._

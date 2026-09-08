@@ -7,7 +7,14 @@ tags = []
 categories = []
 thumbnail = "images/tn.png"
 description = ""
-external_url = "https://opensourceconnections.com/blog/2015/02/16/solr-cassandra-database-migrations-with-trireme/"
+external = true
+externalLink = "https://opensourceconnections.com/blog/2015/02/16/solr-cassandra-database-migrations-with-trireme/"
+external_source = "OpenSource Connections"
+
+[build]
+render = "never"
+list = "always"
+publishResources = false
 +++
 
 Recently we have been working on a project with a distributed team of developers. Each developer had a local [DataStax Enterprise cluster running via Vagrant](https://opensourceconnections.com/blog/2015/02/06/a-vagrant-conversation/). Over time we kept running into problems with various developers’ clusters being out of sync with the latest schema. One early solution involved tearing down and rebuilding the keyspace after every pull. This worked, but lead to delays between building the keyspace, loading data, and having indexed content to work with. This led to problems during deployments as certain changes were looking for columns that no longer existed. Communication was flowing, but there were disjoints in the schema conversation.

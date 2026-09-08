@@ -7,7 +7,14 @@ tags = []
 categories = []
 thumbnail = "images/tn.png"
 description = ""
-external_url = "https://www.datastax.com/blog/2019/09/datastax-cdc-connector-apache-kafkatm-enables-globally-replicated-microservices"
+external = true
+externalLink = "https://www.datastax.com/blog/2019/09/datastax-cdc-connector-apache-kafkatm-enables-globally-replicated-microservices"
+external_source = "DataStax"
+
+[build]
+render = "never"
+list = "always"
+publishResources = false
 +++
 
 Customers -  like Capital One, Delta Airlines, and Macy's - choose [DataStax Enterprise](https://www.datastax.com/products/datastax-enterprise) (DSE) because it's underpinned by [Apache Cassandra](https://www.datastax.com/products/apache-cassandra)™ and thus offers limitless scale and the most battle-tested, geo-replication capabilities on the market. The DataStax Change Data Capture (CDC) Connector for Apache Kafka will empower customers building microservice architectures to provide multi-data center/cloud replication of the Cassandra-backed system of record which will then enable globally synchronized microservices.

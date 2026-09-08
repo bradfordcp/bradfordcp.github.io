@@ -7,7 +7,14 @@ tags = []
 categories = []
 thumbnail = "images/tn.png"
 description = ""
-external_url = "https://opensourceconnections.com/blog/2015/10/21/recap-cassandra-summit-2015/"
+external = true
+externalLink = "https://opensourceconnections.com/blog/2015/10/21/recap-cassandra-summit-2015/"
+external_source = "OpenSource Connections"
+
+[build]
+render = "never"
+list = "always"
+publishResources = false
 +++
 
 This year OpenSource Connections rolled into Cassandra Summit with 4 attendees. Eric Pugh, Matt Overstreet, and John Woodell attended some of the 137 sessions offered. Matt walked away from day 1 as a Certified Cassandra Developer. On day 3 I delivered a talk outlining some of our work with Cassandra and Spark at the US Patent and Trademark Office. This year was packed with attendees, over 6k people were on site with 5k streaming.
@@ -45,36 +52,36 @@ Finally the keynote wrapped up with an outline of the new “Tick-Tock” releas
 
 At this point the sessions began! There were so many great talks (some of which overlapped), I’m only going to outline a few here interspersed with tweets during the sessions.
 
-{{< tweet 646792581808939008 >}}
+{{< x user="x" id="646792581808939008" >}}
 
 Russ provided an excellent talk focusing on the Spark Cassandra Connector. There were great examples of methods exposed by the connector to leverage the underlying Cassandra datastore when processing through Spark.
 
-{{< tweet 647094886777397248 >}}
+{{< x user="x" id="647094886777397248" >}}
 
-{{< tweet 647095618393870336 >}}
+{{< x user="x" id="647095618393870336" >}}
 
 
 PagerDuty intentionally performs synchronous writes across data centers in their application. The data needs to be extremely durable and may accomadate a little bit of delay to achieve this. They have also implemented their own transaction system within their application to confirm successful writes. Their talk now has me thinking about data in a few more dimensions when implementing distributed systems like C*.
 
-{{< tweet 647109400105197568 >}}
+{{< x user="x" id="647109400105197568" >}}
 
 Macy’s moved their ecommerce platform to C* from DB2. Their team showed many aspects of the move from changing systems on an operational level and data modeling challenges.
 
-{{< tweet 647116244232085506 >}}
+{{< x user="x" id="647116244232085506" >}}
 
 [Sony Computer Entertainment America](https://twitter.com/playstation) discusses the PSN. This included current features and some that have just been released. How these features work and their effects on end users. They presented an interesting approach to balancing load on production clusters. In one instance there was a query access pattern which was hitting the cluster more heavily than others. Instead of just increasing the number of nodes on this cluster they split it off into its own that could be independently scaled.
 
-{{< tweet 647152804444938240 >}}
+{{< x user="x" id="647152804444938240" >}}
 
-{{< tweet 647157140680011777 >}}
+{{< x user="x" id="647157140680011777" >}}
 
 My talk Cassandra & Spark at the USPTO came next. It covered spinning up team members across the enterprise on C* and it’s ins and outs along with a use case for Spark as an ETL pipeline. The demo code is available out on GitHub, along with slides on SlideShare.
 
-{{< tweet 647164326474747904 >}}
+{{< x user="x" id="647164326474747904" >}}
 
 DataStax’s [Brian Hess](https://github.com/brianmhess) had an excellent talk on loading data into C*. He really broke down all the various ways to load data starting with cqlsh and ending with custom code to write out SSTables that could then be piped into `sstableloader`. He also developed a tool, [cassandra-loader](https://github.com/brianmhess/cassandra-loader), which was measured and benchmarked as well. The room was packed and everyone took away some valuable data loading tips.
 
-{{< tweet 647182585534091264 >}}
+{{< x user="x" id="647182585534091264" >}}
 
 To wrap things up [Chris Batey](https://twitter.com/chbatey) delivered and excellent talk on testing interactions with Cassandra. He covered various methods to test failure scenarios in your application. How can you force a ReadTimeout? His tool [scassandra](http://www.scassandra.org/) stubs out a Cassandra server. With this tool in place the tests connect with the stubbed server which will provide any type of response desired. This can include valid data, timeout exceptions, or not at all (letting the driver detect the issue). `scassandra` looks to be an effective tool for writing resilient client applications. It’s worth noting that the Java Driver is now using scassandra to test itself!
 

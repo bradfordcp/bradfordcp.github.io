@@ -1,0 +1,15 @@
+{{- $external := or .Params.externalLink .Params.external_url -}}
+{{- $link := $external | default .RelPermalink -}}
+<li>
+  <span class="date">{{ .Date | time.Format (.Site.Params.dateFormat | default "January 2, 2006" ) }}</span>
+  <a class="title" href="{{ $link | safeURL }}"{{ if $external }} rel="noopener noreferrer"{{ end }}>{{ .Title }}</a>
+  {{- if $external }}
+    <span class="date">
+      {{- with .Params.external_source }}
+        · originally published on <a href="{{ $link | safeURL }}" rel="noopener noreferrer">{{ . }}</a>
+      {{- else }}
+        · originally published <a href="{{ $link | safeURL }}" rel="noopener noreferrer">elsewhere</a>
+      {{- end }}
+    </span>
+  {{- end }}
+</li>
