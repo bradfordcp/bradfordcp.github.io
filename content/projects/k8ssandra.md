@@ -12,6 +12,4 @@ technologies:
 weight: 1
 ---
 
-Cloud-native Cassandra operations: the K8ssandra framework with Cass Operator, Reaper, and Medusa on Kubernetes.
-
-Associated as Product Manager and contributor across the K8ssandra organization; not sole author.
+Cloud-native Apache Cassandra operations: the K8ssandra framework with Cass Operator, Reaper, and Medusa on Kubernetes.

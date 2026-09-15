@@ -1,7 +1,7 @@
 ---
 title: "Managing Distributed Applications in Kubernetes Using Cilium and Istio with Helm and Operator for Deployment"
 date: 2021-10-21T00:00:00-04:00
-draft: false
+draft: true
 description: "Managing distributed applications with Kubernetes in cross-cloud, multi-cloud, and hybrid cloud scenarios using Cilium and Istio with Helm and Operator for deployment."
 external: true
 externalLink: "https://medium.com/building-the-open-data-stack/managing-distributed-applications-in-kubernetes-using-cilium-and-istio-with-helm-and-operator-for-9652d71d6432"

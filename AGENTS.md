@@ -1,4 +1,4 @@
-# Agent notes for bradfordcp.io
+# Agent notes for [bradfordcp.io](http://bradfordcp.io)
 
 Personal site for Christopher Bradford. Content lives in Markdown; Hugo renders it with the hugo-coder theme.
 
@@ -26,7 +26,6 @@ hugo new posts/slug.md
 hugo new posts/slug/index.md   # page bundle (use when the post has images)
 hugo new talks/slug.md
 hugo new projects/slug.md
-hugo new roles/slug.md
 ```
 
 Do not edit `public/` or `resources/_gen/` by hand. `public/` is generated and gitignored. CircleCI builds with `hugo -v` and deploys `public/` to Google Cloud Storage.
@@ -46,20 +45,22 @@ Site-level theme params live under `[params]` in `config.toml` (author, avatar, 
 
 This repo already overrides:
 
-| Override | Role |
-|---|---|
-| `layouts/_partials/list.html` | List pages; each item uses `post-list-item.html` |
-| `layouts/_partials/post-list-item.html` | Post list row; supports local and external links |
-| `layouts/posts/li.html` | Posts section list item; delegates to `post-list-item.html` |
-| `layouts/section/talks.html` | Talks index; date-sorted list that links out |
-| `layouts/_partials/talk-list-item.html` | Talk list row; title uses `externalLink` |
-| `layouts/talks/li.html` | Talks list item; delegates to `talk-list-item.html` |
-| `layouts/section/projects.html` | Projects index; lists by weight with description, role, org, and tech |
-| `layouts/_partials/project-list-item.html` | Project list row |
-| `layouts/_partials/project-meta.html` | Role, organization, external host, technologies |
-| `layouts/projects/single.html` | Project page with description, meta, and body |
-| `layouts/projects/li.html` | Delegates to `project-list-item.html` |
-| `layouts/_default/rss.xml` | RSS items use `externalLink` / `external_url` when set |
+
+| Override                                   | Role                                                                  |
+| ------------------------------------------ | --------------------------------------------------------------------- |
+| `layouts/_partials/list.html`              | List pages; each item uses `post-list-item.html`                      |
+| `layouts/_partials/post-list-item.html`    | Post list row; supports local and external links                      |
+| `layouts/posts/li.html`                    | Posts section list item; delegates to `post-list-item.html`           |
+| `layouts/section/talks.html`               | Talks index; date-sorted list that links out                          |
+| `layouts/_partials/talk-list-item.html`    | Talk list row; title uses `externalLink`                              |
+| `layouts/talks/li.html`                    | Talks list item; delegates to `talk-list-item.html`                   |
+| `layouts/section/projects.html`            | Projects index; lists by weight with description, role, org, and tech |
+| `layouts/_partials/project-list-item.html` | Project list row                                                      |
+| `layouts/_partials/project-meta.html`      | Role, organization, external host, technologies                       |
+| `layouts/projects/single.html`             | Project page with description, meta, and body                         |
+| `layouts/projects/li.html`                 | Delegates to `project-list-item.html`                                 |
+| `layouts/_default/rss.xml`                 | RSS items use `externalLink` / `external_url` when set                |
+
 
 Static assets: `static/favicon.ico`, `static/images/avatar.jpg`. Page-specific images belong in the post's page bundle, not `static/`.
 
@@ -70,7 +71,6 @@ content/
   posts/       blog posts (section: posts)
   talks/       speaking engagements that link out (section: talks)
   projects/    open-source and personal projects (section: projects)
-  roles/       work/role entries
 archetypes/    templates used by `hugo new`
 ```
 
@@ -134,19 +134,6 @@ weight: 0
 
 List pages link to the local project page. The project page repeats the summary and meta and links out via `external_url`.
 
-### `archetypes/roles.md`
-
-Work / role entries under `content/roles/`.
-
-```yaml
-draft: true
-name: "Project Name"
-description: ""
-weight: 0
-```
-
-`name` is the display label in the archetype. Fill `description` and `weight`; add a body when the role needs narrative.
-
 ### `archetypes/talks.md`
 
 Speaking engagements on `/talks/`: conference sessions, webinars, podcasts, and interviews. Entries **list on this site and link out**; they are not rendered as local pages. Prefer video, then the event or podcast page, then slides.
@@ -173,6 +160,8 @@ build:
 - Keep the Markdown in git as a backup. Open the body with a short note and the outbound link.
 - Populate from Work Experience `experience/profile.md` (Talks, Webinars, & Interview). Do not invent talks or dates.
 
+
+
 ### `archetypes/default.md`
 
 Fallback for `hugo new` paths that do not match a named archetype (`title`, `date`, `draft`). Prefer a named archetype instead.
@@ -183,3 +172,8 @@ Fallback for `hugo new` paths that do not match a named archetype (`title`, `dat
 - Do not copy theme templates into `layouts/` unless you are overriding them. Prefer the smallest override that preserves hugo-coder markup and CSS classes (`container list`, `title`, `date`).
 - When adding or changing list-link behavior, keep `externalLink` (posts and talks) and `external_url` (projects) working in both HTML lists and RSS.
 - Do not commit secrets, generated CSS under `resources/_gen/`, or `.hugo_build.lock`.
+
+## Validation
+
+The site must always build. After all change ensure that the site can be rendered successfully.
+
