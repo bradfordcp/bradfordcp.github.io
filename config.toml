@@ -28,6 +28,7 @@ avatarURL = "images/avatar.jpg"
 gravatar = "bradfordcp@gmail.com"
 dateFormat = "2006-01-02"
 since = 2019
+googleAnalytics = "G-PSXWYGXXMN"
 fontAwesome = false
 # Right To Left, shift content direction for languages such as Arabic
 rtl = false
