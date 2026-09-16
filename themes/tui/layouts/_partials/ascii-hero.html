@@ -1,0 +1,27 @@
+{{- $author := .Site.Params.author | default "Christopher Bradford" -}}
+<section class="tui-hero" aria-label="About">
+  <pre class="tui-ascii" aria-hidden="true"> ██████╗ ██████╗
+██╔════╝ ██╔══██╗
+██║      ██████╔╝
+██║      ██╔══██╗
+╚██████╗ ██████╔╝
+ ╚═════╝ ╚═════╝</pre>
+  <div class="tui-hero-copy">
+    <p class="tui-prompt"><span class="tui-dim">$</span> whoami</p>
+    <h1 class="tui-hero-name">{{ $author }}</h1>
+    {{ with .Site.Params.info }}
+      <p class="tui-hero-roles">
+        {{- if reflect.IsSlice . -}}
+          {{ delimit . " · " }}
+        {{- else -}}
+          {{ . }}
+        {{- end -}}
+      </p>
+    {{ end }}
+    <div class="tui-meters" aria-hidden="true">
+      <div class="tui-meter"><span class="tui-meter-label">pm</span><span class="tui-meter-bar tui-meter-green">████████████░░░░</span></div>
+      <div class="tui-meter"><span class="tui-meter-label">eng</span><span class="tui-meter-bar tui-meter-yellow">██████████████░░</span></div>
+      <div class="tui-meter"><span class="tui-meter-label">hack</span><span class="tui-meter-bar tui-meter-magenta">████████████████</span></div>
+    </div>
+  </div>
+</section>

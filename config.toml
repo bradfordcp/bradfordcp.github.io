@@ -1,12 +1,12 @@
 baseurl = "https://bradfordcp.io/" # Hostname (and path) to the root.
 title = "Christopher Bradford - @bradfordcp" # Site title.
-theme = "hugo-coder" # Set the theme.
+theme = "tui"
 locale = "en-US"
 defaultContentLanguage = "en"
 enableEmoji = true
 
 [pagination]
-pagerSize = 6
+pagerSize = 10
 
 [services]
 [services.disqus]
@@ -28,9 +28,7 @@ avatarURL = "images/avatar.jpg"
 gravatar = "bradfordcp@gmail.com"
 dateFormat = "2006-01-02"
 since = 2019
-fontAwesome = true
-# Git Commit in Footer, uncomment the line below to enable it
-#commit = "https://github.com/luizdepra/hugo-coder/tree/"
+fontAwesome = false
 # Right To Left, shift content direction for languages such as Arabic
 rtl = false
 
@@ -46,8 +44,7 @@ hideColorSchemeToggle = false
 maxSeeAlsoItems = 5
 # Custom CSS
 customCSS = []
-# Custom SCSS, file path is relative to Hugo's asset folder (default: {your project root}/assets)
-customSCSS = ["scss/projects.scss"]
+customSCSS = []
 
 [taxonomies]
 category = "categories"
@@ -60,18 +57,21 @@ name = "Github"
 icon = "fa-brands fa-github fa-2x"
 weight = 1
 url = "https://github.com/bradfordcp/"
+path = "/bradfordcp/"
 
 [[params.social]]
 name = "Twitter"
 icon = "fa-brands fa-x-twitter fa-2x"
 weight = 3
 url = "https://twitter.com/bradfordcp/"
+path = "/bradfordcp/"
 
 [[params.social]]
 name = "LinkedIn"
 icon = "fa-brands fa-linkedin fa-2x"
 weight = 4
 url = "https://www.linkedin.com/in/bradfordcp/"
+path = "/in/bradfordcp/"
 
 [[params.social]]
 name = "RSS"
@@ -90,7 +90,7 @@ label = ":us:"
 #url = "about/"
 
 [[languages.en.menu.main]]
-name = "Blog"
+name = "Posts"
 weight = 1
 url = "posts/"
 
@@ -109,20 +109,3 @@ url = "projects/"
 #weight = 5
 #url = "contact/"
 
-# Menu links
-[[menu.main]]
-    name = "Blog"
-    weight = 1
-    url  = "posts"
-[[menu.main]]
-    name = "Talks"
-    weight = 2
-    url  = "talks"
-[[menu.main]]
-    name = "Projects"
-    weight = 3
-    url  = "projects"
-#[[menu.main]]
-#    name = "About"
-#    weight = 2
-#    url = "about"

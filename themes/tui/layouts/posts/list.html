@@ -1,0 +1,14 @@
+{{ define "main" }}
+  {{ .Content }}
+  <div class="tui-table">
+    <div class="tui-table-head">
+      <span class="tui-col-date">DATE</span>
+      <span class="tui-col-title">TITLE</span>
+      <span class="tui-col-meta">SOURCE</span>
+    </div>
+    {{ range .Paginator.Pages }}
+      {{ partial "post-list-item.html" . }}
+    {{ end }}
+  </div>
+  {{ partial "pagination.html" . }}
+{{ end }}

@@ -1,0 +1,17 @@
+{{- $external := or .Params.externalLink .Params.external_url -}}
+{{- $link := $external | default .RelPermalink -}}
+{{- $source := "local" -}}
+{{- if $external }}
+  {{- $source = .Params.external_source | default "external" -}}
+{{- end }}
+<a class="tui-row" href="{{ $link | safeURL }}"{{ if $external }} rel="noopener noreferrer"{{ end }}>
+  <span class="tui-col-date">
+    {{- if not .Date.IsZero -}}
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format (.Site.Params.dateFormat | default "2006-01-02") }}</time>
+    {{- else -}}
+      —
+    {{- end -}}
+  </span>
+  <span class="tui-col-title">{{ .Title }}</span>
+  <span class="tui-col-meta">{{ $source }}{{ if $external }} ↗{{ end }}</span>
+</a>

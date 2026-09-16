@@ -1,0 +1,13 @@
+{{ define "main" }}
+  {{ .Content }}
+  <div class="tui-table">
+    <div class="tui-table-head">
+      <span class="tui-col-date">DATE</span>
+      <span class="tui-col-title">TITLE</span>
+      <span class="tui-col-meta">EVENT</span>
+    </div>
+    {{- range .Pages.ByDate.Reverse }}
+      {{ partial "talk-list-item.html" . }}
+    {{- end }}
+  </div>
+{{ end }}

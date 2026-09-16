@@ -1,0 +1,47 @@
+{{- $home := "/" | relLangURL -}}
+{{- $github := "" -}}
+{{- $linkedin := "" -}}
+{{- range .Site.Params.social }}
+  {{- if eq (lower .name) "github" }}{{ $github = .url }}{{ end }}
+  {{- if eq (lower .name) "linkedin" }}{{ $linkedin = .url }}{{ end }}
+{{- end }}
+<footer class="tui-statusbar">
+  <span class="tui-box-char" aria-hidden="true">└─</span>
+  <nav class="tui-fns" aria-label="Keyboard shortcuts">
+    <a class="tui-fn tui-fn-home" href="{{ $home }}" data-tui-nav="home"{{ if .IsHome }} aria-current="page"{{ end }}>
+      <kbd>1</kbd><span>Home</span>
+    </a>
+    {{- $n := 2 -}}
+    {{- range .Site.Menus.main }}
+      {{- $url := .URL | relLangURL -}}
+      {{- $active := or (eq $.RelPermalink $url) (eq $.RelPermalink (printf "%s/" $url)) (hasPrefix $.RelPermalink $url) -}}
+      {{- $key := $n -}}
+      {{- $slug := lower .Name -}}
+      {{- if in $url "posts" }}{{ $slug = "posts" }}{{ end }}
+      {{- if in $url "talks" }}{{ $slug = "talks" }}{{ end }}
+      {{- if in $url "projects" }}{{ $slug = "projects" }}{{ end }}
+      <a class="tui-fn tui-fn-{{ $slug }}" href="{{ $url }}" data-tui-nav="{{ $slug }}" data-tui-key="{{ $key }}"{{ if $active }} aria-current="page"{{ end }}>
+        <kbd>{{ $key }}</kbd><span>{{ .Name }}</span>
+      </a>
+      {{- $n = add $n 1 -}}
+    {{- end }}
+    {{- with $github }}
+      <a class="tui-fn tui-fn-github" href="{{ . }}" rel="noopener noreferrer" data-tui-nav="github">
+        <kbd>g</kbd><span>GitHub</span>
+      </a>
+    {{- end }}
+    {{- with $linkedin }}
+      <a class="tui-fn tui-fn-linkedin" href="{{ . }}" rel="noopener noreferrer" data-tui-nav="linkedin">
+        <kbd>l</kbd><span>LinkedIn</span>
+      </a>
+    {{- end }}
+    <button type="button" class="tui-fn tui-fn-switch tui-focusable" data-tui-switcher-open>
+      <kbd>:</kbd><span>Go</span>
+    </button>
+    <button type="button" class="tui-fn tui-fn-help tui-focusable" data-tui-help-open>
+      <kbd>?</kbd><span>Help</span>
+    </button>
+  </nav>
+  <span class="tui-titlebar-fill" aria-hidden="true"></span>
+  <span class="tui-box-char" aria-hidden="true">┘</span>
+</footer>

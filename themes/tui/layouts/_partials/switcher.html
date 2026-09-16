@@ -1,0 +1,33 @@
+<div id="tui-switcher" class="tui-modal" hidden role="dialog" aria-modal="true" aria-labelledby="tui-switcher-title">
+  <div class="tui-modal-frame tui-switcher-frame">
+    <header class="tui-titlebar">
+      <span class="tui-box-char" aria-hidden="true">┌─</span>
+      <strong id="tui-switcher-title">Go to</strong>
+      <span class="tui-titlebar-fill" aria-hidden="true"></span>
+      <span class="tui-box-char" aria-hidden="true">┐</span>
+    </header>
+    <div class="tui-modal-body tui-switcher-body">
+      <label class="tui-switcher-prompt" for="tui-switcher-q">
+        <span aria-hidden="true">:</span>
+        <span class="tui-switcher-field">
+          <span class="tui-switcher-ghost" aria-hidden="true">
+            <span class="tui-switcher-ghost-typed"></span><span class="tui-switcher-ghost-rest"></span>
+          </span>
+          <input id="tui-switcher-q" class="tui-switcher-q" type="text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" aria-autocomplete="list" aria-controls="tui-switcher-list" aria-activedescendant="">
+        </span>
+      </label>
+      <ul id="tui-switcher-list" class="tui-switcher-list" role="listbox" aria-label="Matching pages"></ul>
+      <p id="tui-switcher-empty" class="tui-modal-note" hidden>No matching pages.</p>
+    </div>
+    <footer class="tui-statusbar">
+      <span class="tui-box-char" aria-hidden="true">└─</span>
+      <span class="tui-fn tui-fn-hint"><kbd>Enter</kbd><span>Open</span></span>
+      <span class="tui-fn tui-fn-hint"><kbd>Tab</kbd><span>Complete</span></span>
+      <button type="button" class="tui-fn tui-fn-help tui-focusable" data-tui-switcher-close>
+        <kbd>Esc</kbd><span>Close</span>
+      </button>
+      <span class="tui-titlebar-fill" aria-hidden="true"></span>
+      <span class="tui-box-char" aria-hidden="true">┘</span>
+    </footer>
+  </div>
+</div>

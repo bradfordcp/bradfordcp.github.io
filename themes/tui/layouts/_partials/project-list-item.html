@@ -1,0 +1,15 @@
+{{- $external := or .Params.external_url .Params.externalLink -}}
+<div class="tui-project">
+  <a class="tui-col-title" href="{{ .RelPermalink }}">
+    <span class="tui-project-name">{{ .Title }}</span>
+    {{- with .Params.description }}
+      <span class="tui-project-desc">{{ . }}</span>
+    {{- end }}
+  </a>
+  {{- with $external }}
+    {{- $parsed := urls.Parse . -}}
+    <a class="tui-col-meta tui-row-ext" href="{{ . | safeURL }}" rel="noopener noreferrer">{{ $parsed.Host }}{{ strings.TrimSuffix "/" $parsed.Path }} ↗</a>
+  {{- else }}
+    <span class="tui-col-meta tui-dim">—</span>
+  {{- end }}
+</div>

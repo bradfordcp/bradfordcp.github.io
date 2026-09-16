@@ -12,9 +12,6 @@ jobs:
       - attach_workspace:
           at: /root/hugo
       - run:
-          name: Configure submodules
-          command: git submodule sync && git submodule update --init
-      - run:
           name: Build the site with Hugo
           command: hugo -v -d $HUGO_BUILD_DIR
       - persist_to_workspace:

@@ -1,0 +1,16 @@
+{{- $link := or .Params.externalLink .Params.external_url .RelPermalink -}}
+{{- $external := or .Params.externalLink .Params.external_url -}}
+{{- $meta := slice -}}
+{{- with .Params.event }}{{ $meta = $meta | append . }}{{ end -}}
+{{- with .Params.format }}{{ $meta = $meta | append (. | humanize) }}{{ end -}}
+<a class="tui-row" href="{{ $link | safeURL }}"{{ if $external }} rel="noopener noreferrer"{{ end }}>
+  <span class="tui-col-date">
+    {{- if not .Date.IsZero -}}
+      <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format (.Site.Params.dateFormat | default "2006-01-02") }}</time>
+    {{- else -}}
+      —
+    {{- end -}}
+  </span>
+  <span class="tui-col-title">{{ .Title }}</span>
+  <span class="tui-col-meta">{{ delimit $meta " · " }}{{ if $external }} ↗{{ end }}</span>
+</a>

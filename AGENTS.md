@@ -1,21 +1,15 @@
 # Agent notes for [bradfordcp.io](http://bradfordcp.io)
 
-Personal site for Christopher Bradford. Content lives in Markdown; Hugo renders it with the hugo-coder theme.
+Personal site for Christopher Bradford. Content lives in Markdown; Hugo renders it with a custom TUI theme.
 
 ## Engine: Hugo
 
 This is a **Hugo** static site. Site config is `config.toml` (not `hugo.toml`). The live site is `https://bradfordcp.io/`.
 
-- **Minimum Hugo version:** 0.124.0 (required by the theme).
+- **Minimum Hugo version:** 0.124.0.
 - **Goldmark** renders Markdown. `markup.goldmark.renderer.unsafe = true`, so raw HTML in content is allowed.
 - **Taxonomies:** `tags`, `categories`, `series`, `authors`.
 - **Pagination:** 6 items per page.
-
-After cloning, initialize the theme submodule:
-
-```sh
-git submodule update --init
-```
 
 Common commands:
 
@@ -30,37 +24,37 @@ hugo new projects/slug.md
 
 Do not edit `public/` or `resources/_gen/` by hand. `public/` is generated and gitignored. CircleCI builds with `hugo -v` and deploys `public/` to Google Cloud Storage.
 
-## Theme: hugo-coder
+## Theme: tui
 
-Theme: **[hugo-coder](https://github.com/luizdepra/hugo-coder)** (Luiz de Prá), MIT, git submodule at `themes/hugo-coder`.
+Active theme: **tui**, a local terminal UI theme inspired by `htop` and `k9s`. It lives at `themes/tui/`.
 
 ```
-config.toml          theme = "hugo-coder"
-.gitmodules          themes/hugo-coder → git@github.com:luizdepra/hugo-coder.git
+config.toml          theme = "tui"
+themes/tui           local theme (layouts, CSS, keyboard JS)
 ```
 
-Do not change files under `themes/hugo-coder/`. Override behavior in this repo's `layouts/` instead.
+Override theme templates in this repo's `layouts/` only when necessary. Prefer changing `themes/tui/` so the TUI stays self-contained.
 
-Site-level theme params live under `[params]` in `config.toml` (author, avatar, color scheme `auto`, Font Awesome, social links). Nav is `[[languages.en.menu.main]]` (Blog → `posts`, Talks → `talks`, Projects → `projects`). Project list styles are `assets/scss/projects.scss`, wired via `params.customSCSS`.
+Site-level params under `[params]` in `config.toml` (author, `info` roles, date format, social links). Nav is `[[languages.en.menu.main]]` (Posts → `posts`, Talks → `talks`, Projects → `projects`). Homepage social cards use the GitHub and LinkedIn entries in `[[params.social]]`.
 
-This repo already overrides:
+TUI chrome (title bar breadcrumbs, function-key status bar, keyboard help) is implemented in the theme. Keyboard behavior:
 
+- `Tab` / `Shift+Tab` move between links; the focused link is reverse-video highlighted
+- `j` / `k` and arrow keys move focus; mouse hover and click still work
+- `1`–`4` jump Home / Posts / Talks / Projects
+- `g` / `l` open GitHub / LinkedIn
+- `n` / `p` paginate
+- `?` toggles the keymap overlay; `Esc` closes it or returns home
 
-| Override                                   | Role                                                                  |
-| ------------------------------------------ | --------------------------------------------------------------------- |
-| `layouts/_partials/list.html`              | List pages; each item uses `post-list-item.html`                      |
-| `layouts/_partials/post-list-item.html`    | Post list row; supports local and external links                      |
-| `layouts/posts/li.html`                    | Posts section list item; delegates to `post-list-item.html`           |
-| `layouts/section/talks.html`               | Talks index; date-sorted list that links out                          |
-| `layouts/_partials/talk-list-item.html`    | Talk list row; title uses `externalLink`                              |
-| `layouts/talks/li.html`                    | Talks list item; delegates to `talk-list-item.html`                   |
-| `layouts/section/projects.html`            | Projects index; lists by weight with description, role, org, and tech |
-| `layouts/_partials/project-list-item.html` | Project list row                                                      |
-| `layouts/_partials/project-meta.html`      | Role, organization, external host, technologies                       |
-| `layouts/projects/single.html`             | Project page with description, meta, and body                         |
-| `layouts/projects/li.html`                 | Delegates to `project-list-item.html`                                 |
-| `layouts/_default/rss.xml`                 | RSS items use `externalLink` / `external_url` when set                |
+Breadcrumbs in the title bar:
 
+- `Christopher Bradford`
+- `Christopher Bradford > Posts`
+- `Christopher Bradford > Posts > {title}`
+- `Christopher Bradford > Projects`
+- `Christopher Bradford > Talks`
+
+List/RSS templates treat `externalLink` (and `external_url` as a fallback) as the click-through URL for posts and talks. They show `external_source` as the original publisher when present. Project lists link to the local project page; the GitHub host is a separate outbound link from `external_url`.
 
 Static assets: `static/favicon.ico`, `static/images/avatar.jpg`. Page-specific images belong in the post's page bundle, not `static/`.
 
@@ -105,8 +99,6 @@ external_source: ""
 #   publishResources: false
 ```
 
-List/RSS templates treat `externalLink` (and `external_url` as a fallback) as the click-through URL. They show `external_source` as the original publisher when present.
-
 With images or other assets, create a **page bundle** (`content/posts/the-slug/index.md` plus files next to it) and reference them with relative paths or Hugo `figure` shortcodes.
 
 ### `archetypes/projects.md`
@@ -131,8 +123,6 @@ weight: 0
 - `technologies` is a list rendered as a separator-joined line.
 - `weight` orders the list (lower first). DataStax OSS is 1–3, OpenSource Connections OSS is 4–6, personal GitHub projects are 20+.
 - Put highlights in the Markdown body. Open-source entries should be derived from Work Experience `experience/projects.md`, not invented.
-
-List pages link to the local project page. The project page repeats the summary and meta and links out via `external_url`.
 
 ### `archetypes/talks.md`
 
@@ -160,8 +150,6 @@ build:
 - Keep the Markdown in git as a backup. Open the body with a short note and the outbound link.
 - Populate from Work Experience `experience/profile.md` (Talks, Webinars, & Interview). Do not invent talks or dates.
 
-
-
 ### `archetypes/default.md`
 
 Fallback for `hugo new` paths that do not match a named archetype (`title`, `date`, `draft`). Prefer a named archetype instead.
@@ -169,11 +157,10 @@ Fallback for `hugo new` paths that do not match a named archetype (`title`, `dat
 ## Conventions
 
 - Keep new content `draft: true` until it is ready to publish.
-- Do not copy theme templates into `layouts/` unless you are overriding them. Prefer the smallest override that preserves hugo-coder markup and CSS classes (`container list`, `title`, `date`).
+- Do not copy theme templates into `layouts/` unless you are overriding them.
 - When adding or changing list-link behavior, keep `externalLink` (posts and talks) and `external_url` (projects) working in both HTML lists and RSS.
 - Do not commit secrets, generated CSS under `resources/_gen/`, or `.hugo_build.lock`.
 
 ## Validation
 
 The site must always build. After all change ensure that the site can be rendered successfully.
-
