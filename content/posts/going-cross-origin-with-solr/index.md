@@ -7,7 +7,14 @@ tags = []
 categories = []
 thumbnail = "images/tn.png"
 description = ""
-external_url = "https://opensourceconnections.com/blog/2015/03/26/going-cross-origin-with-solr/"
+external = true
+externalLink = "https://opensourceconnections.com/blog/2015/03/26/going-cross-origin-with-solr/"
+external_source = "OpenSource Connections"
+
+[build]
+render = "never"
+list = "always"
+publishResources = false
 +++
 
 It is becoming more common to connect directly with a Solr cluster from rich client side applications. Performing a search directly against the cluster will require either [JSONP](http://en.wikipedia.org/wiki/JSONP) or [Cross-origin Resource Sharing(http://en.wikipedia.org/wiki/Cross-origin_resource_sharing) (CORS). Here we discuss a few methods for connecting with a search resource with CORS.

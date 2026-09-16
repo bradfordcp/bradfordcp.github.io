@@ -1,18 +1,25 @@
 +++ 
 draft = false
 date = 2015-03-30T14:22:56-04:00
-title = "Building the world's smallest Cassandra clusteer"
+title = "Building the world's smallest Cassandra cluster"
 slug = "" 
 tags = []
 categories = []
 thumbnail = "images/tn.png"
 description = ""
-external_url = "https://opensourceconnections.com/blog/2015/03/30/building-the-worlds-smallest-cassandra-cluster/"
+external = true
+externalLink = "https://opensourceconnections.com/blog/2015/03/30/building-the-worlds-smallest-cassandra-cluster/"
+external_source = "OpenSource Connections"
+
+[build]
+render = "never"
+list = "always"
+publishResources = false
 +++
 
 A few weeks ago I received my first Intel Edison in the mail. After a bit of tinkering I was able to bootstrap a small Cassandra cluster on this little SoC. I tweeted a picture showing it up and running with OpsCenter connected in the background.
 
-{{< tweet 566786202184216576 >}}
+{{< x user="x" id="566786202184216576" >}}
 
 I will ouline how to bootstrap the Intel Edison and install a functioning Cassandra cluster. _Note that even though you can run Cassandra on the Edison, that doesn’t necessarily mean you should._
 

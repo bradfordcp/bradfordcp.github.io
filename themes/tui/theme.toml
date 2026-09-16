@@ -1,0 +1,12 @@
+name = "tui"
+license = "MIT"
+licenselink = "https://opensource.org/licenses/MIT"
+description = "A terminal UI theme for Hugo inspired by htop and k9s"
+homepage = "https://bradfordcp.io/"
+tags = ["blog", "minimal", "dark", "terminal", "tui", "personal"]
+features = ["keyboard-navigation", "syntax-highlighting", "rss"]
+min_version = "0.124.0"
+
+[author]
+  name = "Christopher Bradford"
+  homepage = "https://bradfordcp.io/"

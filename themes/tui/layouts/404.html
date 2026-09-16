@@ -1,0 +1,11 @@
+{{ define "main" }}
+  <section class="tui-hero">
+    <pre class="tui-ascii" aria-hidden="true">  404
+ command not found</pre>
+    <div class="tui-hero-copy">
+      <h1>No such file or directory</h1>
+      <p class="tui-hero-roles">This path is not in the filesystem.</p>
+      <p><a href="{{ "/" | relLangURL }}" data-tui-nav="home">cd ~</a></p>
+    </div>
+  </section>
+{{ end }}

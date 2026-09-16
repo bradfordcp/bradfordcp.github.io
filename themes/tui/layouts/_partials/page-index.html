@@ -1,0 +1,36 @@
+{{- $pages := slice -}}
+{{- range site.Pages -}}
+  {{- $html := .OutputFormats.Get "HTML" -}}
+  {{- $external := or .Params.externalLink .Params.external_url -}}
+  {{- $listed := or .IsHome .IsSection .IsPage -}}
+  {{- $include := and (not .Draft) $listed (or $html (and .IsPage $external)) -}}
+  {{- if $include -}}
+    {{- $rel := .RelPermalink -}}
+    {{- $path := $rel | strings.TrimPrefix "/" | strings.TrimSuffix "/" -}}
+    {{- if and (not $path) (not .IsHome) .File -}}
+      {{- $path = path.Join .Section .File.ContentBaseName -}}
+    {{- end -}}
+    {{- $key := .Kind -}}
+    {{- if $path -}}
+      {{- $key = replace $path "/" " " -}}
+    {{- end -}}
+    {{- $dest := $rel -}}
+    {{- if and (not $html) $external -}}
+      {{- $dest = $external -}}
+    {{- end -}}
+    {{- $display := $rel -}}
+    {{- if not $display -}}
+      {{- $display = printf "/%s/" $path -}}
+    {{- end -}}
+    {{- $pages = $pages | append (dict
+      "url" $dest
+      "path" $display
+      "title" .Title
+      "kind" .Kind
+      "section" .Section
+      "key" $key
+      "external" (and (not $html) (ne $external ""))
+    ) -}}
+  {{- end -}}
+{{- end -}}
+{{- $pages | jsonify -}}

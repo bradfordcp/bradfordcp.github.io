@@ -7,7 +7,14 @@ tags = []
 categories = []
 thumbnail = "images/tn.png"
 description = ""
-external_url = "https://opensourceconnections.com/blog/2014/09/17/cassandra-summit-2014/"
+external = true
+externalLink = "https://opensourceconnections.com/blog/2014/09/17/cassandra-summit-2014/"
+external_source = "OpenSource Connections"
+
+[build]
+render = "never"
+list = "always"
+publishResources = false
 +++
 
 OpenSource Connections was well represented in San Francisco at this years Cassandra Summit 2014. We had Chris Bradford, Eric Pugh, and Matt Overstreet in attendance for the training, sessions, and networking events. John Berryman represented OSC with a presentation discussing CQL 3 and maps to the Cassandra internal data structure.

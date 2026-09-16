@@ -1,0 +1,21 @@
+{{- $author := .Site.Params.author | default "Christopher Bradford" -}}
+<nav class="tui-crumbs" aria-label="Breadcrumb">
+  <ol>
+    {{- if .IsHome }}
+      <li aria-current="page">{{ $author }}</li>
+    {{- else }}
+      <li><a href="{{ "/" | relLangURL }}" data-tui-nav="home">{{ $author }}</a></li>
+      {{- $section := .CurrentSection -}}
+      {{- if and $section (not $section.IsHome) }}
+        {{- if or .IsSection (eq .Kind "term") (eq .Kind "taxonomy") }}
+          <li aria-current="page">{{ .Title }}</li>
+        {{- else }}
+          <li><a href="{{ $section.RelPermalink }}">{{ $section.Title }}</a></li>
+          <li aria-current="page">{{ .Title }}</li>
+        {{- end }}
+      {{- else }}
+        <li aria-current="page">{{ .Title }}</li>
+      {{- end }}
+    {{- end }}
+  </ol>
+</nav>

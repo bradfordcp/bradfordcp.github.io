@@ -1,0 +1,41 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{- with .Site.Params.googleAnalytics }}
+  {{- if not hugo.IsServer }}
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ . }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', '{{ . }}');
+</script>
+  {{- end }}
+{{- end }}
+<title>
+  {{- $author := .Site.Params.author | default .Site.Title -}}
+  {{- if .IsHome -}}
+    {{ $author }}
+  {{- else if eq .Kind "page" -}}
+    {{ $author }} &gt; {{ .CurrentSection.Title }} &gt; {{ .Title }}
+  {{- else -}}
+    {{ $author }} &gt; {{ .Title }}
+  {{- end -}}
+</title>
+<meta name="description" content="{{ with .Description }}{{ . }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+<meta name="author" content="{{ .Site.Params.author }}">
+<meta name="theme-color" content="#0b0d12">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="{{ .Permalink }}">
+{{ range .AlternativeOutputFormats -}}
+  <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink }}" title="{{ $.Site.Title }}">
+{{ end -}}
+<link rel="icon" href="{{ "favicon.ico" | relURL }}">
+{{ $css := resources.Get "css/tui.css" }}
+{{ $chroma := resources.Get "css/chroma.css" }}
+{{ $bundle := slice $css $chroma | resources.Concat "css/tui.bundle.css" }}
+{{ if hugo.IsServer }}
+  <link rel="stylesheet" href="{{ $bundle.RelPermalink }}">
+{{ else }}
+  {{ $bundle = $bundle | resources.Minify | resources.Fingerprint }}
+  <link rel="stylesheet" href="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}">
+{{ end }}

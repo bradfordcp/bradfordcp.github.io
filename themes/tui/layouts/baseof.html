@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.Language.Lang | default "en" }}">
+<head>
+  {{ partial "head.html" . }}
+</head>
+<body{{ if .IsHome }} data-tui-home="true"{{ end }}>
+  <a class="tui-skip" href="#tui-main">Skip to content</a>
+  <div class="tui-app">
+    <div class="tui-frame">
+      {{ partial "titlebar.html" . }}
+      <main id="tui-main" class="tui-body" tabindex="-1">
+        {{ block "main" . }}{{ end }}
+      </main>
+      {{ partial "statusbar.html" . }}
+    </div>
+  </div>
+  {{ partial "help.html" . }}
+  {{ partial "switcher.html" . }}
+  <script>window.__TUI_PAGES__ = {{ partial "page-index.html" . | safeJS }};</script>
+  {{ $js := resources.Get "js/tui.js" }}
+  {{ if hugo.IsServer }}
+    <script src="{{ $js.RelPermalink }}"></script>
+  {{ else }}
+    {{ $js = $js | resources.Minify | resources.Fingerprint }}
+    <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+  {{ end }}
+</body>
+</html>

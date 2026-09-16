@@ -7,7 +7,14 @@ tags = []
 categories = []
 thumbnail = "images/tn.png"
 description = ""
-external_url = "https://opensourceconnections.com/blog/2016/04/11/shipping-containers-effectively-deploying-containers-in-the-cloud/"
+external = true
+externalLink = "https://opensourceconnections.com/blog/2016/04/11/shipping-containers-effectively-deploying-containers-in-the-cloud/"
+external_source = "OpenSource Connections"
+
+[build]
+render = "never"
+list = "always"
+publishResources = false
 +++
 
 _This is part 2 of a 3 part series on our move to containers as a platform for Quepid. Be sure to check out Part 1 on generating deployable containers. Part 3 will be linked here once it has been published._

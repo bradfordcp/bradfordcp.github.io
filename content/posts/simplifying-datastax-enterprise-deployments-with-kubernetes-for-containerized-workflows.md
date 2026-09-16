@@ -2,7 +2,13 @@
 title: "Simplifying Datastax Enterprise Deployments With Kubernetes for Containerized Workflows"
 date: 2019-11-18T00:00:00-04:00
 draft: false
-external_url: https://www.datastax.com/blog/2019/11/simplifying-datastax-enterprise-deployments-kubernetes-containerized-workflows
+external: true
+externalLink: https://www.datastax.com/blog/2019/11/simplifying-datastax-enterprise-deployments-kubernetes-containerized-workflows
+external_source: "DataStax"
+build:
+  render: never
+  list: always
+  publishResources: false
 ---
 
 Available today in [DataStax Labs](https://downloads.datastax.com/#labs), the DataStax Enterprise Kubernetes Operator simplifies the deployment and management of [DataStax Enterprise](https://www.datastax.com/products/datastax-enterprise) (DSE) clusters on the Kubernetes platform. Many enterprise IT organizations are implementing hybrid and multi-cloud solutions to leverage features and capabilities on disparate providers. Additionally, tooling has grown to be homogenous across providers—both on-premises and in the cloud. Kubernetes (also known as k8s) has come out as the dominant player in this space with distributions available on most cloud platforms. 

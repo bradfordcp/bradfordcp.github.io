@@ -1,0 +1,31 @@
+{{ define "main" }}
+  <article class="tui-doc">
+    <header class="tui-doc-head">
+      <h1>{{ .Title }}</h1>
+      <p class="tui-meta">
+        {{- if not .Date.IsZero }}
+          <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date | time.Format (.Site.Params.dateFormat | default "2006-01-02") }}</time>
+        {{- end }}
+        {{- with .ReadingTime }}
+          <span class="tui-sep">·</span>
+          <span>{{ . }} min</span>
+        {{- end }}
+        {{- with .GetTerms "categories" }}
+          <span class="tui-sep">·</span>
+          {{- range $i, $term := . }}
+            {{- if $i }}, {{ end }}<a href="{{ $term.RelPermalink }}">{{ $term.LinkTitle }}</a>
+          {{- end }}
+        {{- end }}
+        {{- with .GetTerms "tags" }}
+          <span class="tui-sep">·</span>
+          {{- range $i, $tag := . }}
+            {{- if $i }}, {{ end }}<a href="{{ $tag.RelPermalink }}">{{ $tag.LinkTitle }}</a>
+          {{- end }}
+        {{- end }}
+      </p>
+    </header>
+    <div class="tui-doc-body">
+      {{ .Content }}
+    </div>
+  </article>
+{{ end }}

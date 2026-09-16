@@ -1,0 +1,16 @@
+{{ $paginator := .Paginator }}
+{{ if gt $paginator.TotalPages 1 }}
+  <nav class="tui-pager" aria-label="Pagination">
+    {{ if $paginator.HasPrev }}
+      <a href="{{ $paginator.Prev.URL }}" rel="prev">p prev</a>
+    {{ else }}
+      <span class="tui-dim">p prev</span>
+    {{ end }}
+    <span class="tui-pager-status">{{ $paginator.PageNumber }}/{{ $paginator.TotalPages }}</span>
+    {{ if $paginator.HasNext }}
+      <a href="{{ $paginator.Next.URL }}" rel="next">n next</a>
+    {{ else }}
+      <span class="tui-dim">n next</span>
+    {{ end }}
+  </nav>
+{{ end }}

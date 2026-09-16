@@ -1,0 +1,12 @@
+{{ define "main" }}
+  {{ .Content }}
+  <div class="tui-table tui-table-projects">
+    <div class="tui-table-head">
+      <span class="tui-col-title">NAME</span>
+      <span class="tui-col-meta">REPO</span>
+    </div>
+    {{- range .Pages.ByWeight }}
+      {{ partial "project-list-item.html" . }}
+    {{- end }}
+  </div>
+{{ end }}

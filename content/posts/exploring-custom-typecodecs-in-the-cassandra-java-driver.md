@@ -7,7 +7,14 @@ tags = []
 categories = []
 thumbnail = "images/tn.png"
 description = ""
-external_url = "https://opensourceconnections.com/blog/2015/12/22/exploring-custom-typecodecs-in-the-cassandra-java-driver/"
+external = true
+externalLink = "https://opensourceconnections.com/blog/2015/12/22/exploring-custom-typecodecs-in-the-cassandra-java-driver/"
+external_source = "OpenSource Connections"
+
+[build]
+render = "never"
+list = "always"
+publishResources = false
 +++
 
 **TL;DR check out the source on [GitHub](https://github.com/o19s/JodaTimeCodecs). For more information dig in to the explanation below.**

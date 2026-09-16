@@ -1,0 +1,18 @@
+{{- $external := or .Params.external_url .Params.externalLink -}}
+<div class="tui-meta">
+  {{- with .Params.role }}
+    <span>{{ . }}</span>
+  {{- end }}
+  {{- with .Params.organization }}
+    {{- if $.Params.role }}<span class="tui-sep">·</span>{{ end }}
+    <span>{{ . }}</span>
+  {{- end }}
+  {{- with $external }}
+    {{- $parsed := urls.Parse . -}}
+    {{- if or $.Params.role $.Params.organization }}<span class="tui-sep">·</span>{{ end }}
+    <a href="{{ . | safeURL }}" rel="noopener noreferrer">{{ $parsed.Host }}{{ strings.TrimSuffix "/" $parsed.Path }} ↗</a>
+  {{- end }}
+</div>
+{{- with .Params.technologies }}
+  <p class="tui-tech">{{ delimit . " · " }}</p>
+{{- end }}

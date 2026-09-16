@@ -1,0 +1,20 @@
+{{ define "main" }}
+  {{ partial "ascii-hero.html" . }}
+  {{ with .Content }}
+    <section class="tui-about">
+      {{ . }}
+    </section>
+  {{ end }}
+  <section class="tui-actions" aria-label="Profiles">
+    {{- range .Site.Params.social }}
+      {{- $name := lower .name -}}
+      {{- if or (eq $name "github") (eq $name "linkedin") }}
+        <a class="tui-card" href="{{ .url }}" rel="noopener noreferrer" data-tui-nav="{{ $name }}">
+          <span class="tui-card-key">{{ if eq $name "github" }}g{{ else }}l{{ end }}</span>
+          <span class="tui-card-title">{{ if eq $name "github" }}GitHub{{ else }}{{ .name }}{{ end }}</span>
+          <span class="tui-card-url">{{ .path }}</span>
+        </a>
+      {{- end }}
+    {{- end }}
+  </section>
+{{ end }}

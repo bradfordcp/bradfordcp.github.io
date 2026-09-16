@@ -1,0 +1,61 @@
+# Required repository secrets:
+#   GCLOUD_SERVICE_KEY  - GCP service account JSON key
+#   GOOGLE_PROJECT_ID   - GCP project ID
+#
+# Non-main branches deploy to gs://staging.bradfordcp.io/
+# The main branch deploys to gs://bradfordcp.io/
+
+name: Build and deploy
+
+on:
+  push:
+    branches:
+      - "**"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref_name == 'main' && 'production' || 'staging' }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      HUGO_ENV: production
+      HUGO_ENVIRONMENT: production
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: "0.166.0"
+          extended: true
+
+      - name: Build
+        run: hugo --destination public
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v3
+        with:
+          credentials_json: "${{ secrets.GCLOUD_SERVICE_KEY }}"
+          project_id: "${{ secrets.GOOGLE_PROJECT_ID }}"
+
+      - name: Set up Cloud SDK
+        uses: google-github-actions/setup-gcloud@v3
+
+      - name: Deploy to GCS
+        run: |
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            bucket="gs://bradfordcp.io/"
+          else
+            bucket="gs://staging.bradfordcp.io/"
+          fi
+          echo "Deploying to ${bucket}"
+          gsutil -m rsync -r -d public "${bucket}"
