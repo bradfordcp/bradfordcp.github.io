@@ -22,7 +22,7 @@ hugo new talks/slug.md
 hugo new projects/slug.md
 ```
 
-Do not edit `public/` or `resources/_gen/` by hand. `public/` is generated and gitignored. CircleCI builds with `hugo -v` and deploys `public/` to Google Cloud Storage.
+Do not edit `public/` or `resources/_gen/` by hand. `public/` is generated and gitignored. GitHub Actions (`.github/workflows/deploy.yml`) builds with `hugo` and deploys `public/` to Google Cloud Storage: non-`main` branches to `gs://staging.bradfordcp.io/`, `main` to `gs://bradfordcp.io/`.
 
 ## Theme: tui
 
