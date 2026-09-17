@@ -59,7 +59,10 @@ jobs:
           fi
           echo "Deploying to ${bucket}"
           gsutil -m rsync -r -d public "${bucket}"
-          # Fingerprinted CSS/JS filenames change with content; cache them for a year.
-          gsutil -m setmeta -h "Cache-Control:public, max-age=31536000, immutable" \
-            "${bucket}css/*" \
-            "${bucket}js/*"
+          # Fingerprinted filenames change with content; cache them for a year.
+          for prefix in css js; do
+            if gsutil ls "${bucket}${prefix}/" >/dev/null 2>&1; then
+              gsutil -m setmeta -h "Cache-Control:public, max-age=31536000, immutable" \
+                "${bucket}${prefix}/*"
+            fi
+          done
