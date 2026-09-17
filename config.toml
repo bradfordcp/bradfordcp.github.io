@@ -5,6 +5,8 @@ locale = "en-US"
 defaultContentLanguage = "en"
 enableEmoji = true
 
+ignoreFiles = [ "ci/.*" ]
+
 [pagination]
 pagerSize = 10
 
@@ -24,8 +26,6 @@ author = "Christopher Bradford"
 description = "Christopher Bradford's projects & posts"
 keywords = "blog,developer,project manager,personal,coding"
 info = ["Product Manager", "Software Engineer", "Hacker"]
-avatarURL = "images/avatar.jpg"
-gravatar = "bradfordcp@gmail.com"
 dateFormat = "2006-01-02"
 since = 2019
 googleAnalytics = "G-PSXWYGXXMN"
