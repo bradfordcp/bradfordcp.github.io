@@ -56,7 +56,7 @@ Breadcrumbs in the title bar:
 
 List/RSS templates treat `externalLink` (and `external_url` as a fallback) as the click-through URL for posts and talks. They show `external_source` as the original publisher when present. Project lists link to the local project page; the GitHub host is a separate outbound link from `external_url`.
 
-Static assets: `static/favicon.ico`, `static/images/avatar.jpg`. Page-specific images belong in the post's page bundle, not `static/`.
+Static assets: `static/favicon.ico`. Page-specific images belong in the post's page bundle, not `static/`.
 
 ## Content layout
 

@@ -36,6 +36,6 @@
 {{ if hugo.IsServer }}
   <link rel="stylesheet" href="{{ $bundle.RelPermalink }}">
 {{ else }}
-  {{ $bundle = $bundle | resources.Minify | resources.Fingerprint }}
-  <link rel="stylesheet" href="{{ $bundle.RelPermalink }}" integrity="{{ $bundle.Data.Integrity }}">
+  {{ $bundle = $bundle | resources.Minify }}
+  <style>{{ $bundle.Content | safeCSS }}</style>
 {{ end }}

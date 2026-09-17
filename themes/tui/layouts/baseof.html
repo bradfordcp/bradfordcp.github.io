@@ -19,10 +19,10 @@
   <script>window.__TUI_PAGES__ = {{ partial "page-index.html" . | safeJS }};</script>
   {{ $js := resources.Get "js/tui.js" }}
   {{ if hugo.IsServer }}
-    <script src="{{ $js.RelPermalink }}"></script>
+    <script defer src="{{ $js.RelPermalink }}"></script>
   {{ else }}
     {{ $js = $js | resources.Minify | resources.Fingerprint }}
-    <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
+    <script defer src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}"></script>
   {{ end }}
 </body>
 </html>
